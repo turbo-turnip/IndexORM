@@ -1,0 +1,28 @@
+{
+  "name": "indexorm",
+  "version": "1.0.0",
+  "description": "JavaScript ORM library for MySQL",
+  "main": "demos/connectdb.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "connectdb": "nodemon demos/connectdb.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftwareFuze/IndexORM.git"
+  },
+  "keywords": [
+    "ORM",
+    "MySQL",
+    "JS"
+  ],
+  "author": "Atticus C",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/SoftwareFuze/IndexORM/issues"
+  },
+  "homepage": "https://github.com/SoftwareFuze/IndexORM#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
