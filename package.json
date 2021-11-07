@@ -25,5 +25,8 @@
   "homepage": "https://github.com/SoftwareFuze/IndexORM#readme",
   "devDependencies": {
     "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "mysql2": "^2.3.3-rc.0"
   }
 }

@@ -1,8 +1,13 @@
 import { _extends } from "./extends.js";
+import { createConnection } from "mysql2/promise";
 
 export const _connection = {
-    async create(connectionObject = {}) {
-        return new Promise((resolve, reject) => {
+    // Create a connection to MySQL and database
+    create(connectionObject = {}) {
+        const _this = this;
+
+        return new Promise(async (resolve, reject) => {
+            // Check if `connectionObject` has the right properties and types
             const extendsConnectionString = _extends({
                 connectionString: 'string'
             }, connectionObject, {});
@@ -16,11 +21,20 @@ export const _connection = {
             if (!extendsConnectionString.extends && !extendsConnectionObj.extends)
                 reject('You must pass an object with a connectionString or user, host, pass, and database to the `connection.create` method.');
 
+            // Generate MySQL connection string based off of `connectionObject`
             const connectionString = 
                 extendsConnectionString.extends ? connectionObject.connectionString :
-                `server=${connectionObject.host};uid=${connectionObject.user};pwd=${connectionObject.pass};database=${connectionObject.database}`;
+                `mysql2://${connectionObject.user}:${connectionObject.pass}@${connectionObject.host}/${connectionObject.database}`;
 
-            resolve(connectionString);
+            try {
+                const connection = await createConnection(connectionString);
+
+                _this.connection = connection;
+
+                resolve({ connected: true });
+            } catch (err) {
+                reject({ connected: false, error: err.message ? err.message : err });
+            }
         });
     }
 }
