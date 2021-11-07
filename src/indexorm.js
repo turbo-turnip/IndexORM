@@ -1,5 +1,7 @@
-import { _connection } from './connection';
+import { _connection } from './connection.js';
 
-export const orm = {
-    connection: _connection
-}
+const connection = _connection;
+
+export {
+    connection
+};
