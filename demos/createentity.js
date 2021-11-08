@@ -10,7 +10,7 @@ try {
 
     connected.connected && console.log('Database connected');
 
-    class Bands extends orm.Entity {
+    class Band extends orm.Entity {
         constructor() {
             super("bands_entity");
         }
@@ -23,7 +23,9 @@ try {
         }
     }
 
-    const b = new Bands();
+    await orm.entities.require([Band]);
+
+    console.log(orm.entities);
 } catch (err) {
     console.log(err);
 }

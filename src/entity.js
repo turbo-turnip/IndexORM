@@ -7,7 +7,7 @@ export class _Entity {
         // Get methods from entity (child class)
         this.methods = Object.getOwnPropertyNames(this.constructor.prototype);
         // Find all methods that exist as columns
-        this.columns = this.methods.filter(method => {
+        this.columnNames = this.methods.filter(method => {
             if (method === "constructor") return false;
 
             if (typeof this[method]() === 'object') {
@@ -20,7 +20,7 @@ export class _Entity {
         });
         
         // Check if all columns have correct properties and types
-        this.columns.forEach(column => {
+        this.columnNames.forEach(column => {
             const columnValue = this[column]();
 
             const extendsTarget = _extends(
@@ -41,5 +41,7 @@ export class _Entity {
             if (!extendsTarget.extends && extendsTarget.invalidTypes.length > 0)
                 throw Error(`Found invalid type for column property \`${extendsTarget.invalidTypes[0]}\` in column \`${column}\` in entity \`${entityName}\`.`);
         });
+
+        this.columns = this.columnNames.map(column => this[column]());
     }
 }
