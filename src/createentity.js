@@ -1,7 +1,11 @@
+import { _createInsert } from './createinsert.js';
+
 // Create entity constructor with columns
-export const _createEntity = (entity) => {
+export const _createEntity = (entity, connection) => {
     return function() {
         const _this = this;
+        _this.connection = connection;
+        _this.entityName = entity.entityName;
 
         // Loop through columns and create getters/setters
         entity.columns.forEach(column => {
@@ -38,5 +42,15 @@ export const _createEntity = (entity) => {
                 }
             });
         });
+
+        this.save = (callback) => {
+            return new Promise(async (resolve, reject) => {
+                const properties = Object.keys(this);
+                // Find values of all columns inside all the valid columns for row
+                const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length))).map(prop => this[prop]);
+
+                console.log(_createInsert(entity, rowValues));
+            });
+        }
     }
 }

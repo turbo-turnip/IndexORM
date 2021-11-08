@@ -1,5 +1,6 @@
 import { _Entity } from './entity.js';
 import { _createEntity } from './createentity.js';
+import * as orm from './indexorm.js';
 
 let requireCalled = 0;
 
@@ -16,7 +17,7 @@ export const _entities = {
 
             // Check if `entityList` is an array
             if (!(entityList instanceof Array))
-                reject('Paramater passed into `entities.require` must be an array of entities.');
+                reject('Parameter passed into `entities.require` must be an array of entities.');
 
             // Check if each entity in `entityList` extends the `Entity` class
             entityList.forEach(entity => {
@@ -27,12 +28,13 @@ export const _entities = {
 
                 // Add entity
                 _this["_" + e.constructor.name] = e;
-                _this[e.constructor.name] = _createEntity(e);
+                _this[e.constructor.name] = _createEntity(e, orm.connection);
             });
 
             resolve({ added: true });
         });
     },
+
     add(entity) {
         return new Promise(async (resolve, reject) => {
             // Check if `entity` extends the `Entity` class
@@ -43,7 +45,7 @@ export const _entities = {
 
             // Add entity
             this["_" + e.constructor.name] = e;
-            this[e.constructor.name] = _createEntity(e);
+            this[e.constructor.name] = _createEntity(e, orm.connection);
 
             resolve({ added: true });
         });
