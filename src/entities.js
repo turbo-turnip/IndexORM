@@ -1,4 +1,5 @@
 import { _Entity } from './entity.js';
+import { _createEntity } from './createentity.js';
 
 let requireCalled = 0;
 
@@ -25,7 +26,8 @@ export const _entities = {
                     reject('All items in array passed into `entities.require` must extend the `Entity` class.');
 
                 // Add entity
-                _this[e.constructor.name] = e;
+                _this["_" + e.constructor.name] = e;
+                _this[e.constructor.name] = _createEntity(e);
             });
 
             resolve({ added: true });
@@ -40,7 +42,8 @@ export const _entities = {
                 reject('Paramater passed into `entities.add` must extend the `Entity` class.');
 
             // Add entity
-            this[e.constructor.name] = e;
+            this["_" + e.constructor.name] = e;
+            this[e.constructor.name] = _createEntity(e);
 
             resolve({ added: true });
         });

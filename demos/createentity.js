@@ -24,7 +24,9 @@ try {
     }
 
     await orm.entities.require([Band]);
-    console.log(orm.entities);
+    
+    const MrSotosBand = new orm.entities.Band();
+    MrSotosBand.column1 = 'hello';
 } catch (err) {
     console.log(err);
 }
