@@ -9,6 +9,20 @@ try {
     });
 
     connected.connected && console.log('Database connected');
+
+    class Bands extends orm.Entity {
+        constructor() {
+            super("bands_entity");
+        }
+
+        column1() {
+            return {
+                a: 5
+            };
+        }
+    }
+
+    const b = new Bands();
 } catch (err) {
     console.log(err);
 }

@@ -27,6 +27,7 @@ export const _connection = {
                 `mysql2://${connectionObject.user}:${connectionObject.pass}@${connectionObject.host}/${connectionObject.database}`;
 
             try {
+                // Connect to database
                 const connection = await createConnection(connectionString);
 
                 _this.connection = connection;
