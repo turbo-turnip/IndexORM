@@ -24,7 +24,6 @@ try {
     }
 
     await orm.entities.require([Band]);
-
     console.log(orm.entities);
 } catch (err) {
     console.log(err);
