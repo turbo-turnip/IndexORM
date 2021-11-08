@@ -17,7 +17,8 @@ try {
 
         column1() {
             return {
-                a: 5
+                name: 'column1',
+                type: orm.types.VarChar(25)
             };
         }
     }

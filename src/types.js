@@ -22,7 +22,7 @@ export const Boolean = () => ({
     SQLType: "BOOL",
     params: []
 });
-export const VarChar = (charlimit) => ({
+export const VarChar = (charLimit) => ({
     SQLType: "VARCHAR(" + charLimit + ")",
     params: [charLimit]
 });
