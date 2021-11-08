@@ -4,7 +4,6 @@ import { _createInsert } from './createinsert.js';
 export const _createEntity = (entity, connection) => {
     return function() {
         const _this = this;
-        _this.connection = connection;
         _this.entityName = entity.entityName;
 
         // Loop through columns and create getters/setters
@@ -43,13 +42,24 @@ export const _createEntity = (entity, connection) => {
             });
         });
 
-        this.save = (callback) => {
+        this.save = (callback = (_) => {}) => {
             return new Promise(async (resolve, reject) => {
                 const properties = Object.keys(this);
                 // Find values of all columns inside all the valid columns for row
                 const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length))).map(prop => this[prop]);
 
-                console.log(_createInsert(entity, rowValues));
+                // Get insert data based on `entity` and `rowValues`
+                const insertData = _createInsert(entity, rowValues);
+                if (connection.connection) {
+                    try {
+                        const [data] = await connection.connection.query(insertData.SQL, insertData.params);
+                        
+                        callback(data);
+                        resolve(data);
+                    } catch (err) {
+                        reject(err.sqlMessage ? `[${err.errno}] ${err.sqlMessage}` : err);
+                    }
+                } else reject('There is no connection to the database.');
             });
         }
     }

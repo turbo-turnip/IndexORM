@@ -27,8 +27,9 @@ try {
     
     const MrSotosBand = new orm.entities.Band();
     MrSotosBand.column1 = 'hello';
-    await MrSotosBand.save((current) => {
-        console.log(current);
+    await MrSotosBand.save((res) => {
+        console.log('Successfully inserted item into database! Response data: ');
+        console.log(res);
     });
 } catch (err) {
     console.log(err);
