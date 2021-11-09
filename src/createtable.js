@@ -1,9 +1,20 @@
 export const _createTable = (entity, connection) => {
     return {
+        // Select all columns from a table
+        selectAll() {
+            return new Promise(async (resolve, reject) => {
+                if (connection.connection) {
+                    const [values] = await connection.connection.query(`SELECT * FROM ${entity.entityName}`);
+
+                    resolve({
+                        rows: values
+                    });
+                }
+            });
+        },
+
         // Select from a table specific columns
         select(columns) {
-            const _this = this;
-
             return new Promise(async (resolve, reject) => {
                 // Check if `columns` is an array or not
                 if (!(columns instanceof Array))
@@ -34,9 +45,9 @@ export const _createTable = (entity, connection) => {
                         [columns]
                     );
 
-                    return {
+                    resolve({
                         rows: values,  
-                    };
+                    });
                 } else reject('There is no connection to the database.');
             });
         }

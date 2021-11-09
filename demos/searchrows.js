@@ -35,18 +35,18 @@ class Band extends orm.Entity {
 
 await orm.entities.require([Band]);
 
-const bandsData = [
-    {name: "Band1"},
-    {name: "Band2"},
-    {name: "Band3"},
-    {name: "Band4"}
-];
+// const bandsData = [
+//     {name: "Band1"},
+//     {name: "Band2"},
+//     {name: "Band3"},
+//     {name: "Band4"}
+// ];
 
-bandsData.forEach(async band => {
-    const newBand = new orm.entities.Band();
-    newBand.band_name = band.name;
-    await newBand.save(() => console.log(`Saved ${band.name}`));
-});
+// bandsData.forEach(async band => {
+//     const newBand = new orm.entities.Band();
+//     newBand.band_name = band.name;
+//     await newBand.save(() => console.log(`Saved ${band.name}`));
+// });
 
 // orm.entities.bands.selectAll();
 // orm.entities.bands.select(["band_name"]);
@@ -58,5 +58,5 @@ bandsData.forEach(async band => {
 // orm.entities.bands.selectAll().limit(3).order(decend());
 // Comparison functions: lt, gt, eq, ltOrEq, gtOrEq
 
-const bands = await orm.tables.bands.select(["band_name"]);
-console.log(bands);
+const bands = await orm.tables.bands.selectAll(["band_name"]);
+console.log(bands.rows);
