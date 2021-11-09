@@ -9,10 +9,16 @@ const Entity = _Entity;
 const entities = _entities;
 const tables = {};
 
+const like = (str) => ({
+    likeMethod: true,
+    str
+});
+
 export {
     connection,
     types,
     Entity,
     entities,
-    tables
+    tables,
+    like
 };

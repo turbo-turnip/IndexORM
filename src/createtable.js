@@ -1,3 +1,5 @@
+import { _where } from './rowmanipulation.js';
+
 export const _createTable = (entity, connection) => {
     return {
         // Select all columns from a table
@@ -7,7 +9,8 @@ export const _createTable = (entity, connection) => {
                     const [values] = await connection.connection.query(`SELECT * FROM ${entity.entityName}`);
 
                     resolve({
-                        rows: values
+                        rows: values,
+                        where: (obj) => _where(obj, values)
                     });
                 }
             });
@@ -47,6 +50,7 @@ export const _createTable = (entity, connection) => {
 
                     resolve({
                         rows: values,  
+                        where: (obj) => _where(obj, values)
                     });
                 } else reject('There is no connection to the database.');
             });
