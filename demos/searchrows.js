@@ -59,5 +59,5 @@ await orm.entities.require([Band]);
 // Comparison functions: lt, gt, eq, ltOrEq, gtOrEq
 
 const bands = await orm.tables.bands.selectAll(["band_name"]);
-const bandsWhere = bands.where({ band_name: orm.like("and4") });
+const bandsWhere = bands.where({ band_name: orm.like("and") }).limit(0);
 console.log(bandsWhere.rows);

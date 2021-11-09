@@ -19,6 +19,13 @@ export const _where = (obj, rows) => {
 
             return matching.length === objKeys.length;
         }),
-        where: (obj) => _where(obj, rows)
+        where: (obj) => _where(obj, rows),
+        limit: (n) => _limit(n, rows)
     }
 }
+
+export const _limit = (n, rows) => ({
+    rows: rows.slice(0, n),
+    where: (obj) => _where(obj, rows),
+    limit: (n) => _limit(n, rows)
+});
