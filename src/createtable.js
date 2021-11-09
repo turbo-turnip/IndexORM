@@ -1,0 +1,44 @@
+export const _createTable = (entity, connection) => {
+    return {
+        // Select from a table specific columns
+        select(columns) {
+            const _this = this;
+
+            return new Promise(async (resolve, reject) => {
+                // Check if `columns` is an array or not
+                if (!(columns instanceof Array))
+                    reject('You must pass in an array of column names to the `select` method.');
+
+                if (connection.connection) {
+                    // Check if the columns are all valid
+                    const [validColumns] = await connection.connection.query(
+                        `
+                        SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS 
+                        WHERE table_schema = (SELECT database()) 
+                        AND table_name = ?
+                        `,
+                        [entity.entityName]
+                    );
+
+                    const validColumnNames = validColumns.map(c => c.COLUMN_NAME);
+                    columns.forEach(column => {
+                        if (!validColumnNames.includes(column))
+                            reject(`Column \`${column}\` is not valid.`);
+                    });
+
+                    // Select all columns
+                    const [values] = await connection.connection.query(
+                        `
+                        SELECT ${columns.map(() => '??').join(', ')} FROM ${entity.entityName}
+                        `,
+                        [columns]
+                    );
+
+                    return {
+                        rows: values,  
+                    };
+                } else reject('There is no connection to the database.');
+            });
+        }
+    };
+}

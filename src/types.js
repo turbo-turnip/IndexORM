@@ -54,8 +54,3 @@ export const JSON = () => ({
     SQLType: "JSON",
     params: []
 });
-export const Array = (type) => ({
-    SQLType: "JSON",
-    custom: "array",
-    params: [type]
-});

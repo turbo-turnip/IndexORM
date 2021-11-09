@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "connectdb": "nodemon demos/connectdb.js",
-    "createentity": "nodemon demos/createentity.js"
+    "createentity": "nodemon demos/createentity.js",
+    "searchrows": "nodemon demos/searchrows.js"
   },
   "repository": {
     "type": "git",

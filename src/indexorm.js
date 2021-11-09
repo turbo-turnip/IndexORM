@@ -7,10 +7,12 @@ const connection = _connection;
 const types = _types;
 const Entity = _Entity;
 const entities = _entities;
+const tables = {};
 
 export {
     connection,
     types,
     Entity,
-    entities
+    entities,
+    tables
 };

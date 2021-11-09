@@ -1,5 +1,6 @@
 import { _Entity } from './entity.js';
 import { _createEntity } from './createentity.js';
+import { _createTable } from './createtable.js';
 import * as orm from './indexorm.js';
 
 let requireCalled = 0;
@@ -29,6 +30,7 @@ export const _entities = {
                 // Add entity
                 _this["_" + e.constructor.name] = e;
                 _this[e.constructor.name] = _createEntity(e, orm.connection);
+                orm.tables[e.entityName] = _createTable(e, orm.connection);
             });
 
             resolve({ added: true });
@@ -46,6 +48,7 @@ export const _entities = {
             // Add entity
             this["_" + e.constructor.name] = e;
             this[e.constructor.name] = _createEntity(e, orm.connection);
+            orm.tables[e.entityName] = _createTable(e, orm.connection);
 
             resolve({ added: true });
         });

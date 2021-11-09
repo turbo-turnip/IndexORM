@@ -20,9 +20,6 @@ export const _createEntity = (entity, connection) => {
                     if (column.notNull && value == null)
                         throw Error(`Cannot set column \`${column.name}\` to null.`);
 
-                    if (column.type?.custom === "array" && !(value instanceof Array))
-                        throw Error(`\`${column.name}\` must be assigned to an array.`);
-
                     if ((column.type.SQLType.includes('VARCHAR') || column.type.SQLType === 'TEXT') && typeof value !== 'string')
                         throw Error(`\`${column.name}\` must be assigned to a string.`);
 
@@ -46,10 +43,11 @@ export const _createEntity = (entity, connection) => {
             return new Promise(async (resolve, reject) => {
                 const properties = Object.keys(this);
                 // Find values of all columns inside all the valid columns for row
-                const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length))).map(prop => this[prop]);
+                const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length)) && this[prop] != null).map(prop => this[prop]);
+                const insertedColumns = entity.columns.filter(column => this[column.name] != null);
 
                 // Get insert data based on `entity` and `rowValues`
-                const insertData = _createInsert(entity, rowValues);
+                const insertData = _createInsert(entity, insertedColumns, rowValues);
                 if (connection.connection) {
                     try {
                         const [data] = await connection.connection.query(insertData.SQL, insertData.params);
