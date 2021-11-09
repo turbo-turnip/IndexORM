@@ -14,11 +14,17 @@ const like = (str) => ({
     str
 });
 
+const not = (value) => ({
+    notMethod: true,
+    value
+});
+
 export {
     connection,
     types,
     Entity,
     entities,
     tables,
-    like
+    like,
+    not
 };
