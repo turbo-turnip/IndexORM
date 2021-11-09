@@ -11,7 +11,8 @@ export const _createTable = (entity, connection) => {
                     resolve({
                         rows: values,
                         where: (obj) => _where(obj, values),
-                        limit: (n) => _limit(n, rows)
+                        limit: (n) => _limit(n, rows),
+                        order: (direction) => _order(direction, newRows)
                     });
                 }
             });
@@ -52,7 +53,8 @@ export const _createTable = (entity, connection) => {
                     resolve({
                         rows: values,  
                         where: (obj) => _where(obj, values),
-                        limit: (n) => _limit(n, rows)
+                        limit: (n) => _limit(n, rows),
+                        order: (direction) => _order(direction, newRows)
                     });
                 } else reject('There is no connection to the database.');
             });

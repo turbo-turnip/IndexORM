@@ -52,12 +52,12 @@ await orm.entities.require([Band]);
 // orm.entities.bands.select(["band_name"]);
 // orm.entities.bands.select(["band_name"]).where({ band_name: "Band1" });
 // orm.entities.bands.select(["band_name"]).where({ band_name: like("Band1") });
-// orm.entities.bands.select(["band_name"]).where({ band_name: like("Band1") }).and({ band_id: ltOrEq(1000) });
-// orm.entities.bands.select(["band_name"]).where({ band_name: like("Band1") }).and({ band_id: ltOrEq(1000) }).or({ band_id: eq(2000) });
+// orm.entities.bands.select(["band_name"]).where({ band_name: like("Band1") });
+// orm.entities.bands.select(["band_name"]).where({ band_name: like("Band1") });
 // orm.entities.bands.selectAll().limit(3).order(ascend());
-// orm.entities.bands.selectAll().limit(3).order(decend());
-// Comparison functions: lt, gt, eq, ltOrEq, gtOrEq
+// orm.entities.bands.selectAll().limit(3).order(descend());
+// Comparison functions: lt, gt, ltOrEq, gtOrEq
 
 const bands = await orm.tables.bands.selectAll(["band_name"]);
-const bandsWhere = bands.where({ band_name: orm.like("and"), band_id: orm.not(251) }).limit(2);
+const bandsWhere = bands.where({ band_name: orm.like("and"), band_id: orm.not(251) }).order(orm.ascend());
 console.log(bandsWhere.rows);
