@@ -43,7 +43,7 @@ export const _createEntity = (entity, connection) => {
             return new Promise(async (resolve, reject) => {
                 const properties = Object.keys(this);
                 // Find values of all columns inside all the valid columns for row
-                const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length)) && this[prop] != null).map(prop => this[prop]);
+                const rowValues = properties.filter(prop => prop.startsWith('_') && entity.columnNames.includes(prop.substring(1, prop.length)) && this[prop] != null).map(prop => ({ name: prop.substring(1, prop.length), value: this[prop] }));
                 const insertedColumns = entity.columns.filter(column => this[column.name] != null);
 
                 // Get insert data based on `entity` and `rowValues`

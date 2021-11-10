@@ -33,7 +33,39 @@ class Band extends orm.Entity {
     }
 }
 
-await orm.entities.require([Band]);
+class Musician extends orm.Entity {
+    constructor() {
+        super("musicians");
+    }
+
+    musician_id() {
+        return {
+            name: "musician_id",
+            type: orm.types.Int(),
+            notNull: true,
+            autoIncrement: 2,
+            primaryKey: true
+        }
+    }
+
+    musician_instrument() {
+        return {
+            name: "musician_instrument",
+            type: orm.types.VarChar(50),
+            notNull: true
+        }
+    }
+
+    musician_band_id() {
+        return {
+            name: "musician_band_id",
+            type: orm.types.Int(),
+            notNull: true
+        }
+    }
+}
+
+await orm.entities.require([Band, Musician]);
 
 // const bandsData = [
 //     {name: "Band1"},
@@ -58,6 +90,14 @@ await orm.entities.require([Band]);
 // orm.entities.bands.selectAll().limit(3).order(descend());
 // Comparison functions: lt, gt, ltOrEq, gtOrEq
 
-const bands = await orm.tables.bands.selectAll(["band_name"]);
-const bandsWhere = bands.where({ band_name: orm.like("and"), band_id: orm.not(251) }).order(orm.ascend());
-console.log(bandsWhere.rows);
+const musicians = await orm.tables.musicians.selectAll();
+musicians.rows.forEach(async musician => {
+    const bandRelation = await orm.tables.bands.selectJoin({
+        columns: ["bands.band_name", "musicians.musician_id"],
+        from: "musicians",
+        join: "bands",
+        on: "musicians.musician_band_id = bands.band_id"
+    });
+    const band = bandRelation.where({ musician_id: musician.musician_id });
+    console.log('Instrument:', musician.musician_instrument, 'Band:', band.rows[0].band_name);
+});
