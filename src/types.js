@@ -10,13 +10,13 @@ export const BigInt = (limit) => ({
     SQLType: "BIGINT(" + limit + ")",
     params: [limit]
 });
-export const Decimal = (limit) => ({
-    SQLType: "DECIMAL(" + limit + ")",
-    params: [limit]
+export const Decimal = () => ({
+    SQLType: "DECIMAL",
+    params: []
 });
-export const Float = (limit) => ({
-    SQLType: "FLOAT(" + limit + ")",
-    params: [limit]
+export const Float = () => ({
+    SQLType: "FLOAT",
+    params: []
 });
 export const Boolean = () => ({
     SQLType: "BOOL",
