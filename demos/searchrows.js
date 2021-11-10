@@ -101,3 +101,5 @@ musicians.rows.forEach(async musician => {
     const band = bandRelation.where({ musician_id: musician.musician_id });
     console.log('Instrument:', musician.musician_instrument, 'Band:', band.rows[0].band_name);
 });
+
+await orm.connection.terminate();

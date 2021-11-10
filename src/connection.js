@@ -37,5 +37,16 @@ export const _connection = {
                 reject({ connected: false, error: err.message ? err.message : err });
             }
         });
+    },
+
+    // Close MySQL connection
+    terminate() {
+        return new Promise(async (resolve, reject) => {
+            if (this.connection.connection) {
+                this.connection.end();
+
+                resolve();
+            } else reject('There is no connection to the database.');
+        });
     }
 }
