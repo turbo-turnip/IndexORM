@@ -1,0 +1,48 @@
+:root {
+    --green: rgb(49, 141, 114);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    width: 80px;
+    height: 100vh;
+    background: var(--green);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 0.5rem;
+    flex-direction: column;
+}
+
+.navbar > a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+.navbar img {
+    filter: drop-shadow(0 0 6px #00000050);
+    width: 80%;
+    margin-bottom: 0.5rem;
+}
+
+.navbar > img {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.8rem;
+}
+
+.navbar a > img {
+    width: 50%;
+    cursor: pointer;
+}
+
+.navbar a:hover {
+    background: rgb(36, 119, 94)
+}
