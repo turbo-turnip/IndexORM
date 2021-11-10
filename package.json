@@ -2,13 +2,12 @@
   "name": "indexorm",
   "version": "1.0.0",
   "description": "JavaScript ORM library for MySQL",
-  "main": "demos/connectdb.js",
+  "main": "src/indexorm.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "connectdb": "nodemon demos/connectdb.js",
-    "createentity": "nodemon demos/createentity.js",
-    "searchrows": "nodemon demos/searchrows.js"
+    "test:connectdb": "nodemon demos/connectdb.js",
+    "test:createentity": "nodemon demos/createentity.js",
+    "test:searchrows": "nodemon demos/searchrows.js"
   },
   "repository": {
     "type": "git",
