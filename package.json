@@ -7,7 +7,8 @@
   "scripts": {
     "test:connectdb": "nodemon demos/connectdb.js",
     "test:createentity": "nodemon demos/createentity.js",
-    "test:searchrows": "nodemon demos/searchrows.js"
+    "test:searchrows": "nodemon demos/searchrows.js",
+    "deploy": "gh-pages -d docs"
   },
   "repository": {
     "type": "git",
@@ -23,11 +24,12 @@
   "bugs": {
     "url": "https://github.com/SoftwareFuze/IndexORM/issues"
   },
-  "homepage": "https://github.com/SoftwareFuze/IndexORM#readme",
+  "homepage": "https://softwarefuze.github.io/indexorm",
   "devDependencies": {
     "nodemon": "^2.0.14"
   },
   "dependencies": {
+    "gh-pages": "^3.2.3",
     "mysql2": "^2.3.3-rc.0"
   }
 }
