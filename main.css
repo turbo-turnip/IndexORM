@@ -1,0 +1,84 @@
+:root {
+    --green: rgb(49, 141, 114);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.navbar {
+    width: 80px;
+    height: 100vh;
+    background: var(--green);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 0.5rem;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+}
+
+.navbar > a {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+.navbar img {
+    filter: drop-shadow(0 0 6px #00000050);
+    width: 80%;
+    margin-bottom: 0.5rem;
+}
+
+.navbar > img {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.8rem;
+}
+
+.navbar a > img {
+    width: 50%;
+    cursor: pointer;
+}
+
+.navbar a:hover {
+    background: rgb(36, 119, 94)
+}
+
+main {
+    padding: 2rem 80px;
+}
+
+main > h1:first-of-type {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+
+main ul {
+    position: relative;
+    left: 20px;
+}
+
+main .snippet {
+    background: #ddd;
+    border-radius: 8px;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-params {
+    color: rgb(49, 141, 114) !important;
+}
+
+.hljs-function {
+    color: rgb(0, 0, 0) !important;
+}
+
+.hljs-selector-class {
+    color: rgb(15, 188, 211) !important;
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css" />
+    <title>IndexORM - Documentation</title>
+</head>
+<body>
+    <nav class="navbar">
+        <img src="indexorm.svg" alt="IndexORM" />
+        <a href="https://github.com/SoftwareFuze/IndexORM">
+            <img src="https://img.icons8.com/material-outlined/96/000000/github.png" />
+        </a>
+        <a href="https://codepen.io/teake_smal">
+            <img src="https://img.icons8.com/ios-filled/100/000000/codepen.png" />
+        </a>
+        <a href="https://discord.gg/8ZUWDhQY8h">
+            <img src="https://img.icons8.com/color/96/000000/discord-logo.png"/>
+        </a>
+        <a href="https://npmjs.com/package/indexorm">
+            <img src="https://img.icons8.com/color/48/000000/npm.png"/>
+        </a>
+    </nav>
+
+    <main>
+        <h1 id="indexorm">IndexORM</h1>
+        <img src="indexorm.svg" alt="IndexORM" />
+        <p>IndexORM is a simple JavaScript <strong>Object-Relational-Mapping</strong> library for <strong>MySQL</strong>.</p>
+        <br />
+
+        <h2 id="requirements">Requirements</h2>
+        <ul>
+            <li><code>yarn</code> or <code>npm</code></li>
+            <li>Node.js version 13.2 or higher</li>
+        </ul>
+        <br />
+        <h2 id="installation">Installation</h2>
+        <p>Using <code>yarn</code>:</p>
+        <pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> indexorm</span>
+        </code></pre><p>Using <code>npm</code>:</p>
+        <pre><code>npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save indexorm</span>
+        </code></pre><h2 id="documentation">Documentation</h2>
+        <p><strong>Note: The examples use modules and top-level async/await</strong></p>
+        <h3 id="connect-to-a-mysql-database-and-user">Connect to a MySQL database and user</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> orm <span class="hljs-keyword">from</span> <span class="hljs-string">'indexorm'</span>;
+
+<span class="hljs-comment">// Connect to database</span>
+<span class="hljs-comment">// Returns Promise&lt;{ connected: boolean }&gt;</span>
+<span class="hljs-keyword">await</span> orm.connection.create({
+    <span class="hljs-attr">user</span>: <span class="hljs-string">"[MySQL username]"</span>,
+    <span class="hljs-attr">pass</span>: <span class="hljs-string">"[MySQL password]"</span>,
+    <span class="hljs-attr">host</span>: <span class="hljs-string">"[MySQL hostname]"</span>,
+    <span class="hljs-attr">database</span>: <span class="hljs-string">"[MySQL database to connect to]"</span>,
+    <span class="hljs-comment">// Or, just pass in connectionString:</span>
+    <span class="hljs-comment">// connnectionString: "server=[host];uid=[user];pwd=[pass];database=[database]"</span>
+});
+
+<span class="hljs-keyword">await</span> orm.connection.terminate();
+        </code></pre>
+        </div>
+        <h3 id="connect-to-database-and-create-entity">Connect to database and create entity</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// import...</span>
+
+<span class="hljs-comment">// create connection...</span>
+
+<span class="hljs-comment">// Create entity class and extend `orm.Entity`</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyEntity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">orm</span>.<span class="hljs-title">Entity</span> </span>{
+    constructor() {
+        <span class="hljs-comment">// Call super with the entity name (table name) as a string</span>
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"my_entity"</span>);
+    }
+
+    <span class="hljs-comment">// Create columns through method returns</span>
+    column1() {
+        <span class="hljs-keyword">return</span> {
+            column: <span class="hljs-literal">true</span>, <span class="hljs-comment">// Optional; specify if the method should not be a column</span>
+            name: <span class="hljs-string">"column1"</span>, <span class="hljs-comment">// Mandatory; the column name</span>
+            <span class="hljs-class"><span class="hljs-keyword">type</span></span>: orm.types.<span class="hljs-type">VarChar</span>(<span class="hljs-number">25</span>), <span class="hljs-comment">// Mandatory; the column type. See list of column types by clicking the link below the code snippet</span>
+            primaryKey: <span class="hljs-literal">true</span>, <span class="hljs-comment">// Optional; boolean for if the column is a primary key or not</span>
+            autoIncrement: <span class="hljs-number">0</span>, <span class="hljs-comment">// Optional; auto increment by integer</span>
+            notNull: <span class="hljs-literal">true</span>, <span class="hljs-comment">// Optional; boolean for if the column cannot be null</span>
+        }
+    }
+}
+
+<span class="hljs-comment">// Add the entity</span>
+<span class="hljs-comment">// Pass in array of entities to require</span>
+await orm.entities.require([<span class="hljs-type">MyEntity</span>]);
+<span class="hljs-comment">// Or add entities individually with `orm.entities.add`</span>
+<span class="hljs-comment">// await orm.entities.add(MyEntity);</span>
+<span class="hljs-comment">// terminate connection...</span>
+        </code></pre>
+        </div>
+        <p><a href="#column-types">See list of column types</a></p>
+        <h3 id="using-entities">Using entities</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// import...</span>
+
+<span class="hljs-comment">// create connection...</span>
+
+<span class="hljs-comment">// create entity... (MyEntity)</span>
+
+<span class="hljs-comment">// require/add entity... (MyEntity)</span>
+
+<span class="hljs-comment">// Entity classes will be stored in `orm.entities`</span>
+<span class="hljs-comment">// Create a new object of the entity</span>
+<span class="hljs-keyword">const</span> myEntity = <span class="hljs-keyword">new</span> orm.entities.MyEntity();
+myEntity.column1 = <span class="hljs-number">5</span>; <span class="hljs-comment">// Error: Cannot set column of type VarChar(25) to integer</span>
+myEntity.column1 = <span class="hljs-string">"asdfasdfasdfasdfasdfasdfasdf"</span>; <span class="hljs-comment">// Error: String is greater than VarChar limit</span>
+myEntity.column1 = <span class="hljs-string">"Hello"</span>; <span class="hljs-comment">// Success</span>
+<span class="hljs-comment">// Save the entity to MySQL</span>
+<span class="hljs-keyword">await</span> myEntity.save(<span class="hljs-function">(<span class="hljs-params">info</span>) =&gt;</span> {
+    <span class="hljs-comment">// Optional callback with info on insertion</span>
+});
+
+<span class="hljs-comment">// terminate connection...</span>
+        </code></pre>
+        </div>
+        <h3 id="select-entities-from-a-table">Select entities from a table</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// import...</span>
+
+<span class="hljs-comment">// create connection...</span>
+
+<span class="hljs-comment">// create entity... (MyEntity)</span>
+
+<span class="hljs-comment">// require/add entity... (MyEntity)</span>
+
+<span class="hljs-comment">// save some entities to the database...</span>
+
+<span class="hljs-comment">// Access a table with `orm.tables.[entity table name]`</span>
+<span class="hljs-comment">// Select all columns from all entities in table</span>
+<span class="hljs-keyword">const</span> allEntities = <span class="hljs-keyword">await</span> orm.tables[<span class="hljs-string">'my_entity'</span>].selectAll();
+<span class="hljs-comment">// Both methods return { rows: Array&lt;Object&gt;, ...(...) =&gt; ? }</span>
+<span class="hljs-comment">// Select specific columns from all entities</span>
+<span class="hljs-keyword">const</span> allEntityColumn1s = <span class="hljs-keyword">await</span> orm.tables[<span class="hljs-string">'my_entity'</span>].<span class="hljs-keyword">select</span>([<span class="hljs-string">"column1"</span>]);
+
+<span class="hljs-comment">// terminate connection...</span>
+        </code></pre>
+        </div>
+        <h3 id="entity-selection-manipulation">Entity selection manipulation</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// import...</span>
+
+<span class="hljs-comment">// create connection...</span>
+
+<span class="hljs-comment">// create entity... (MyEntity)</span>
+
+<span class="hljs-comment">// require/add entity... (MyEntity)</span>
+
+<span class="hljs-comment">// save some entities to the database...</span>
+
+<span class="hljs-comment">// Select all columns from all entities in table</span>
+<span class="hljs-keyword">const</span> allEntities = <span class="hljs-keyword">await</span> orm.tables[<span class="hljs-string">'my_entity'</span>].selectAll();
+<span class="hljs-keyword">const</span> specificEntity = allEntities.rows.<span class="hljs-keyword">where</span>({ column1: orm.like(<span class="hljs-string">'ello'</span>) });
+<span class="hljs-comment">// .limit(n) - limits amount of returned entities</span>
+<span class="hljs-comment">// .order(orm.ascend("column")) - orders entities by the column name passed into orm.ascend()</span>
+<span class="hljs-comment">// .order(orm.descend("column)) - orders entities by the column name passed into orm.descend()</span>
+
+<span class="hljs-comment">// Comparison methods</span>
+<span class="hljs-comment">// gt(n) - Greater than the number passed in</span>
+<span class="hljs-comment">// lt(n) - Less than the number passed in</span>
+<span class="hljs-comment">// gtOrEq(n) - Greater than or equal to the number passed in</span>
+<span class="hljs-comment">// ltOrEq(n) - Less than or equal to the number passed in</span>
+<span class="hljs-comment">// Example: </span>
+<span class="hljs-comment">// allEntities.rows.where({ column1: orm.gt(5) });</span>
+
+<span class="hljs-comment">// terminate connection...</span>
+        </code></pre>
+        </div>
+        <h3 id="select-table-and-join">Select table and join</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// import...</span>
+
+<span class="hljs-comment">// create connection...</span>
+
+<span class="hljs-comment">// create entity... (MyEntity)</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Entity2</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">orm</span>.<span class="hljs-title">Entity</span> </span>{
+    constructor() {
+        <span class="hljs-keyword">super</span>(<span class="hljs-string">"entity2"</span>);
+    }
+
+    column1() {
+        <span class="hljs-keyword">return</span> {
+            column: <span class="hljs-literal">true</span>,
+            name: <span class="hljs-string">"column1"</span>,
+            <span class="hljs-class"><span class="hljs-keyword">type</span></span>: orm.types.<span class="hljs-type">VarChar</span>(<span class="hljs-number">25</span>),
+            primaryKey: <span class="hljs-literal">true</span>, 
+            notNull: <span class="hljs-literal">true</span>,
+        }
+    }
+
+<span class="hljs-comment">// require/add entity... (MyEntity)</span>
+
+<span class="hljs-comment">// save some entities to the database...</span>
+
+<span class="hljs-comment">// Join Entity2.column1 with MyEntity.column1</span>
+const joined = await orm.tables.entity2.selectJoin({
+    <span class="hljs-comment">// Columns to select</span>
+    columns: [<span class="hljs-string">"my_entity.column1"</span>],
+    <span class="hljs-comment">// Table from</span>
+    from: <span class="hljs-string">"entity2"</span>,
+    <span class="hljs-comment">// Table to join</span>
+    join: <span class="hljs-string">"my_entity"</span>,
+    <span class="hljs-comment">// Join table on</span>
+    on: <span class="hljs-string">"entity2.column1 = my_entity.column1"</span>
+});
+
+<span class="hljs-comment">// terminate connection...</span>
+        </code></pre>
+        </div>
+
+        <h3 id="column-types">Column Types</h3>
+        <div class="snippet">
+        <pre><code class="lang-js"><span class="hljs-comment">// JS                        SQL Type</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.SmallInt</span>(p)        <span class="hljs-comment">// SMALLINT(p)</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Int</span>()              <span class="hljs-comment">// INT</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.BigInt</span>(p)          <span class="hljs-comment">// BIGINT(p)</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Decimal</span>()          <span class="hljs-comment">// DECIMAL</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Float</span>()            <span class="hljs-comment">// FLOAT</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Boolean</span>()          <span class="hljs-comment">// BOOL</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.VarChar</span>(p)         <span class="hljs-comment">// VARCHAR(p)</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Text</span>()             <span class="hljs-comment">// TEXT</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Date</span>()             <span class="hljs-comment">// DATE</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Time</span>()             <span class="hljs-comment">// TIME</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.DateTime</span>()         <span class="hljs-comment">// DATETIME</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.TimeStamp</span>()        <span class="hljs-comment">// TIMESTAMP</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.Year</span>()             <span class="hljs-comment">// YEAR</span>
+orm<span class="hljs-selector-class">.types</span><span class="hljs-selector-class">.JSON</span>()             <span class="hljs-comment">// JSON</span>
+        </code></pre>
+    </main>
+</body>
+</html>
