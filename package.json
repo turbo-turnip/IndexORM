@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/SoftwareFuze/IndexORM/issues"
   },
-  "homepage": "https://softwarefuze.github.io/indexorm",
+  "homepage": "http://indexorm.tk",
   "devDependencies": {
     "nodemon": "^2.0.14"
   },
