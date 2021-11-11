@@ -17,6 +17,8 @@
     align-items: center;
     padding-top: 0.5rem;
     flex-direction: column;
+    position: fixed;
+    left: 0;
 }
 
 .navbar > a {
@@ -45,4 +47,38 @@
 
 .navbar a:hover {
     background: rgb(36, 119, 94)
+}
+
+main {
+    padding: 2rem 80px;
+}
+
+main > h1:first-of-type {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
+}
+
+main ul {
+    position: relative;
+    left: 20px;
+}
+
+main .snippet {
+    background: #ddd;
+    border-radius: 8px;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+.hljs-title,
+.hljs-attr,
+.hljs-params {
+    color: rgb(49, 141, 114) !important;
+}
+
+.hljs-function {
+    color: rgb(0, 0, 0) !important;
+}
+
+.hljs-selector-class {
+    color: rgb(15, 188, 211) !important;
 }
