@@ -97,6 +97,57 @@ export const _createTable = (entity, connection) => {
                     });
                 } else reject('There is no connection to the database.');
             });
+        },
+
+        // Update rows
+        update(updater, where) {
+            return new Promise(async (resolve, reject) => {
+                if (typeof where !== 'object' || typeof updater !== 'object')
+                    reject('Parameters to `update` method must be of type object.');
+
+                if (connection.connection) {
+                    const updateSQL = `
+                    UPDATE ??
+                    SET ${Object.getOwnPropertyNames(updater).map(() => '?? = ?').join(', ')}
+                    WHERE ${Object.getOwnPropertyNames(where).map(() => '?? = ?').join(' AND ')}
+                    `;
+                    const updaterProps = Object.getOwnPropertyNames(updater);
+                    const updaterValues = Object.getOwnPropertyNames(updater).map(prop => updater[prop]);
+                    const updaterPropsParams = [];
+                    let updaterPropsIter = 0;
+                    let updaterValuesIter = 0;
+                    for (let i = 0; i < updaterProps.length + updaterValues.length; i++) {
+                        if (i % 2 === 0) {
+                            updaterPropsParams[i] = updaterProps[updaterPropsIter];
+                            updaterPropsIter++;
+                        } else {
+                            updaterPropsParams[i] = updaterValues[updaterValuesIter];
+                            updaterValuesIter++;
+                        }
+                    }
+                    
+                    const whereProps = Object.getOwnPropertyNames(where);
+                    const whereValues = Object.getOwnPropertyNames(where).map(prop => where[prop]);
+                    const wherePropsParams = [];
+                    let wherePropsIter = 0;
+                    let whereValuesIter = 0;
+                    for (let i = 0; i < whereProps.length + whereValues.length; i++) {
+                        if (i % 2 === 0) {
+                            wherePropsParams[i] = whereProps[wherePropsIter];
+                            wherePropsIter++;
+                        } else {
+                            wherePropsParams[i] = whereValues[whereValuesIter];
+                            whereValuesIter++;
+                        }
+                    }
+
+                    const params = [entity.entityName, ...updaterPropsParams, ...wherePropsParams];
+
+                    const [] = await connection.connection.query(updateSQL, params);
+
+                    resolve(true);
+                } else reject('There is no connection to the database.');
+            });
         }
     };
 }
