@@ -48,7 +48,7 @@ export const _createTable = (entity, connection) => {
                         `
                         SELECT ${columns.map(() => '??').join(', ')} FROM ${entity.entityName}
                         `,
-                        [columns]
+                        [...columns]
                     );
 
                     resolve({
