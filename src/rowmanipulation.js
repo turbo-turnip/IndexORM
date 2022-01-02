@@ -1,3 +1,5 @@
+
+
 // Query where properties are equal to or like each other
 export const _where = (obj, rows) => {
     const newRows = rows.filter(row => {

@@ -99,6 +99,30 @@ export const _createTable = (entity, connection) => {
             });
         },
 
+        // Delete rows
+        delete(where) {
+            return new Promise(async (resolve, reject) => {
+                if (typeof where !== 'object')
+                    reject('Parameter to `delete` method must be of type object.');
+
+                if (connection.connection) {
+                    const deleteSQL = `
+                    DELETE FROM ??
+                    WHERE ${Object.keys(where).map(() => '?? = ?').join(' AND ')}
+                    `;
+                    const whereKeysAndValues = [];
+                    for (let i = 0; i < Object.keys(where).length; i++) {
+                        whereKeysAndValues.push(Object.keys(where)[i]);
+                        whereKeysAndValues.push(Object.values(where)[i]);
+                    }
+
+                    const deleteParams = [entity.entityName, ...whereKeysAndValues];
+                    const [] = await connection.connection.query(deleteSQL, deleteParams);
+                    resolve(true);
+                }
+            });
+        },
+
         // Update rows
         update(updater, where) {
             return new Promise(async (resolve, reject) => {

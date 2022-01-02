@@ -1,6 +1,6 @@
 {
   "name": "indexorm",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "JavaScript ORM library for MySQL",
   "main": "src/indexorm.js",
   "type": "module",
